@@ -3,10 +3,13 @@
 # OPCUA EPICS Device Drvier
 - https://github.com/open62541/open62541.git
 - https://github.com/epics-modules/opcua.git
+- https://github.com/Sangil-Lee/opcua.git
 
-## EPICS Device Driver 버전 맞추기 (open62541 v1.3.16)
+## open62541(v1.3.16)
 - 필요조건
- : 
+:(중요)
+:sudo aptitude install libmbedtls-dev
+
 :git clone https://github.com/open62541/open62541.git
 :cd open62541
 :git checkout refs/tags/v1.3.16
@@ -27,8 +30,102 @@
   )
 :git submodule update --init --recursive
 :mkdir build && cd build
-:(중요)
-:sudo aptitude install libmbedtls-dev
 :(중요)cmake ../ -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUA_ENABLE_AMALGAMATION=OFF -DUA_ENABLE_ENCRYPTION=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo -DUA_ENABLE_AMALGAMATION=OFF -DUA_ENABLE_ENCRYPTION=ON \
       -DUA_ENABLE_ENCRYPTION_MBEDTLS=ON \
 :sudo make install
+
+## opcua
+: configure/RELEASE
+ ==> EPICS_BASE = 
+: configure/CONFIG_SITE.local
+# Path to the Open62541 C++ installation
+OPEN62541 = /usr/local
+
+# How the Open62541 shared libraries are deployed
+#   SYSTEM = shared libs are in a system location
+#   PROVIDED = shared libs are in $(OPEN62541_SHRLIB_DIR)
+#   INSTALL = shared libs are installed (copied) into this module
+#   EMBED = link Open62541 code statically into libopcua,
+#           the Open62541 libraries are not required on target system
+OPEN62541_DEPLOY_MODE = PROVIDED
+OPEN62541_LIB_DIR = $(OPEN62541)/lib
+OPEN62541_SHRLIB_DIR = $(OPEN62541_LIB_DIR)
+# How the Open62541 libraries were built
+OPEN62541_USE_CRYPTO = YES
+
+:make
+:make install
+
+
+:exampleTop/DeviceDbApp/S7-1500Db
+# A pair of ai/ao working on a double data item
+# The other input uses SLOPE conversion
+record(ai, "$(P)$(R)Tank1") {
+    field(DTYP, "OPCUA")
+    field(INP,  "@$(SUBS) ns=2;s=TemperatureSensor_Tank1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)Tank2") {
+    field(DTYP, "OPCUA")
+    field(INP,  "@$(SUBS) ns=2;s=TemperatureSensor_Tank2")
+    field(SCAN, "I/O Intr")
+}
+
+OPC Server
+
+#!../../bin/linux-x86_64/opcuaIoc
+## You may have to change opcuaIoc to something else
+## everywhere it appears in this file
+< envPaths
+epicsEnvSet("IOC","iocS7-1500")
+epicsEnvSet("TOP","/home/ctrluser/epics/1.1.1/debian-13/7.0.7/modules/opcua/exampleTop")
+epicsEnvSet("OPCUA","/home/ctrluser/epics/1.1.1/debian-13/7.0.7/modules/opcua/exampleTop/..")
+epicsEnvSet("EPICS_BASE","/home/ctrluser/epics/1.1.1/debian-13/7.0.7/base")
+cd "/home/ctrluser/epics/1.1.1/debian-13/7.0.7/modules/opcua/exampleTop"
+## Register all support components
+dbLoadDatabase "dbd/opcuaIoc.dbd"
+opcuaIoc_registerRecordDeviceDriver pdbbase
+## Pretty minimal setup: one session with a 200ms subscription on top
+##opcuaSession OPC1 opc.tcp://localhost:4840
+opcuaSession OPC1 opc.tcp://192.168.75.201:4840 (opc simulation server)
+option 'opc' must follow 'key=value' format - ignored
+option 'simulation' must follow 'key=value' format - ignored
+option 'server' must follow 'key=value' format - ignored
+opcuaSubscription SUB1 OPC1 200
+# Switch off security
+opcuaOptions OPC1 sec-mode=None
+## Load the databases for one of the examples
+## Siemens S7-1500 PLC
+#dbLoadRecords "db/S7-1500-server.db", "P=OPC:,R=,SESS=OPC1,SUBS=SUB1"
+#dbLoadRecords "db/S7-1500-DB1.db", "P=OPC:,R=DB1:,SESS=OPC1,SUBS=SUB1"
+dbLoadRecords "db/Go_OPCUA_sim.db", "P=Temperature:,R=Sensor:,SESS=OPC1,SUBS=SUB1"
+iocInit
+Starting iocInit
+############################################################################
+## EPICS R7.0.7-github.com/jeonghanlee/EPICS-env
+## Rev. R7.0.7-dirty
+## Rev. Date Git: 2022-09-07 13:50:35 -0500
+############################################################################
+OPC UA Client Device Support 0.12.0-dev (); using Open62541 Client API v1.3.16
+iocRun: All initialization complete
+OPC UA: Autoconnecting sessions
+OPC UA session OPC1: connected as 'Anonymous' with security level 0 (mode=None; policy=None)
+OPC UA session OPC1: WARNING - this session uses *** NO SECURITY ***
+## Start any sequence programs
+#seq sncopcuaIoc,"user=ralph"
+7.0.7 >
+7.0.7 > dbl
+Temperature:Sensor:Tank1
+Temperature:Sensor:Tank2
+
+
+:camonitor Temperature:Sensor:Tank1 Temperature:Sensor:Tank2
+Temperature:Sensor:Tank1       2026-01-08 00:45:56.092414 23.16
+Temperature:Sensor:Tank1       2026-01-08 00:45:56.297145 23.3169
+Temperature:Sensor:Tank1       2026-01-08 00:45:56.697130 23.7868
+Temperature:Sensor:Tank1       2026-01-08 00:45:56.892809 22.2745
+Temperature:Sensor:Tank1       2026-01-08 00:45:57.099215 21.4675
+Temperature:Sensor:Tank1       2026-01-08 00:45:57.294359 21.5357
+
+

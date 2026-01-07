@@ -33,7 +33,7 @@ OPCUA = $(TOP)/..
 # file. (See README and issue #63)
 
 # EPICS_BASE should appear last so earlier modules can override stuff:
-#EPICS_BASE = /opt/epics/3.15.5
+EPICS_BASE = /home/ctrluser/epics/1.1.1/debian-13/7.0.7/base
 
 # Set RULES here if you want to use build rules from somewhere
 # other than EPICS_BASE:

@@ -30,7 +30,7 @@
 GTEST = /path/to/gtest/module
 
 # EPICS_BASE should appear last so earlier modules can override stuff:
-EPICS_BASE = /path/to/epics/base
+EPICS_BASE = /home/ctrluser/epics/1.1.1/debian-13/7.0.7/base
 
 # Set RULES here if you want to use build rules from somewhere
 # other than EPICS_BASE:

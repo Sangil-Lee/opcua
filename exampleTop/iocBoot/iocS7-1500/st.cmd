@@ -12,7 +12,9 @@ dbLoadDatabase "dbd/opcuaIoc.dbd"
 opcuaIoc_registerRecordDeviceDriver pdbbase
 
 ## Pretty minimal setup: one session with a 200ms subscription on top
-opcuaSession OPC1 opc.tcp://localhost:4840
+##opcuaSession OPC1 opc.tcp://localhost:4840
+
+opcuaSession OPC1 opc.tcp://192.168.75.201:4840 (opc simulation server)
 opcuaSubscription SUB1 OPC1 200
 
 # Switch off security
@@ -21,8 +23,9 @@ opcuaOptions OPC1 sec-mode=None
 ## Load the databases for one of the examples
 
 ## Siemens S7-1500 PLC
-dbLoadRecords "db/S7-1500-server.db", "P=OPC:,R=,SESS=OPC1,SUBS=SUB1"
-dbLoadRecords "db/S7-1500-DB1.db", "P=OPC:,R=DB1:,SESS=OPC1,SUBS=SUB1"
+#dbLoadRecords "db/S7-1500-server.db", "P=OPC:,R=,SESS=OPC1,SUBS=SUB1"
+#dbLoadRecords "db/S7-1500-DB1.db", "P=OPC:,R=DB1:,SESS=OPC1,SUBS=SUB1"
+dbLoadRecords "db/Go_OPCUA_sim.db", "P=Temperature:,R=Sensor:,SESS=OPC1,SUBS=SUB1"
 
 iocInit
 

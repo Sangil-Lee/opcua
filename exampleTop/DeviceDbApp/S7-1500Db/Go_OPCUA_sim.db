@@ -1,0 +1,13 @@
+# A pair of ai/ao working on a double data item
+# The other input uses SLOPE conversion
+record(ai, "$(P)$(R)Tank1") {
+    field(DTYP, "OPCUA")
+    field(INP,  "@$(SUBS) ns=2;s=TemperatureSensor_Tank1")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)$(R)Tank2") {
+    field(DTYP, "OPCUA")
+    field(INP,  "@$(SUBS) ns=2;s=TemperatureSensor_Tank2")
+    field(SCAN, "I/O Intr")
+}

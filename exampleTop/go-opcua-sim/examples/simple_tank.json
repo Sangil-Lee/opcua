@@ -1,0 +1,60 @@
+{
+  "sensors": [
+    {
+      "name": "TankTemperature",
+      "type": "temperature",
+      "enabled": true,
+      "address": "%DF100",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "baseTemp": 25.0,
+        "amplitude": 5.0,
+        "period": 20.0,
+        "noiseStdDev": 0.3,
+        "minValue": 0.0,
+        "maxValue": 100.0
+      },
+      "description": "Tank temperature sensor"
+    },
+    {
+      "name": "TankLevel",
+      "type": "sine",
+      "enabled": true,
+      "address": "%DF104",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "offset": 50.0,
+        "amplitude": 20.0,
+        "frequency": 0.05,
+        "phase": 0.0
+      },
+      "description": "Tank level sensor"
+    },
+    {
+      "name": "Heater",
+      "type": "relay",
+      "enabled": true,
+      "address": "%MW10",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "defaultState": false,
+        "autoToggle": false,
+        "togglePeriod": 10.0
+      },
+      "description": "Tank heater control"
+    },
+    {
+      "name": "Pump",
+      "type": "relay",
+      "enabled": true,
+      "address": "%MW11",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "defaultState": false,
+        "autoToggle": false,
+        "togglePeriod": 15.0
+      },
+      "description": "Tank pump control"
+    }
+  ]
+}

@@ -1,0 +1,427 @@
+{
+  "sensors": [
+    {
+      "name": "TemperatureSensor_Tank1",
+      "type": "temperature",
+      "enabled": true,
+      "address": "%DF100",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "baseTemp": 25.0,
+        "amplitude": 10.0,
+        "period": 30.0,
+        "noiseStdDev": 0.5,
+        "minValue": 0.0,
+        "maxValue": 100.0
+      },
+      "description": "Tank 1 temperature sensor with sinusoidal variation and noise"
+    },
+    {
+      "name": "TemperatureSensor_Tank2",
+      "type": "temperature",
+      "enabled": true,
+      "address": "%DF104",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "baseTemp": 30.0,
+        "amplitude": 15.0,
+        "period": 45.0,
+        "noiseStdDev": 1.0,
+        "minValue": 0.0,
+        "maxValue": 100.0
+      },
+      "description": "Tank 2 temperature sensor with different parameters"
+    },
+    {
+      "name": "PressureSensor_Pump1",
+      "type": "pressure",
+      "enabled": true,
+      "address": "%DF108",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "minPressure": 0.0,
+        "maxPressure": 10.0,
+        "rampUpTime": 20.0,
+        "holdTime": 10.0,
+        "rampDownTime": 15.0,
+        "noiseStdDev": 0.1
+      },
+      "description": "Pump 1 pressure sensor with ramp up/hold/down cycle"
+    },
+    {
+      "name": "PressureSensor_Pump2",
+      "type": "pressure",
+      "enabled": true,
+      "address": "%DF112",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "minPressure": 1.0,
+        "maxPressure": 8.0,
+        "rampUpTime": 15.0,
+        "holdTime": 5.0,
+        "rampDownTime": 10.0,
+        "noiseStdDev": 0.05
+      },
+      "description": "Pump 2 pressure sensor with faster cycle"
+    },
+    {
+      "name": "LevelSensor_Tank1",
+      "type": "sine",
+      "enabled": true,
+      "address": "%DF116",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "offset": 50.0,
+        "amplitude": 30.0,
+        "frequency": 0.1,
+        "phase": 0.0
+      },
+      "description": "Tank 1 level sensor with simple sine wave"
+    },
+    {
+      "name": "FlowMeter_Pipe1",
+      "type": "random",
+      "enabled": true,
+      "address": "%DF120",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "minValue": 5.0,
+        "maxValue": 15.0,
+        "changeRate": 0.5
+      },
+      "description": "Pipe 1 flow meter with random walk variation"
+    },
+    {
+      "name": "DoorSensor_MainEntrance",
+      "type": "digital",
+      "enabled": true,
+      "address": "%MW0",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "pattern": "toggle",
+        "togglePeriod": 8.0,
+        "pulseWidth": 1.0,
+        "pulsePeriod": 5.0,
+        "randomProb": 0.5
+      },
+      "description": "Main entrance door sensor (open/closed), toggles every 8 seconds"
+    },
+    {
+      "name": "MotionSensor_Room1",
+      "type": "digital",
+      "enabled": true,
+      "address": "%MW1",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "pattern": "random",
+        "togglePeriod": 5.0,
+        "pulseWidth": 1.0,
+        "pulsePeriod": 5.0,
+        "randomProb": 0.3
+      },
+      "description": "Room 1 motion sensor, 30% probability of detecting motion"
+    },
+    {
+      "name": "LimitSwitch_ConveyorBelt",
+      "type": "digital",
+      "enabled": true,
+      "address": "%MW2",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "pattern": "pulse",
+        "togglePeriod": 5.0,
+        "pulseWidth": 0.5,
+        "pulsePeriod": 3.0,
+        "randomProb": 0.5
+      },
+      "description": "Conveyor belt limit switch, pulse 0.5s every 3 seconds"
+    },
+    {
+      "name": "EmergencyStop_Line1",
+      "type": "digital",
+      "enabled": true,
+      "address": "%MW3",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "pattern": "toggle",
+        "togglePeriod": 30.0,
+        "pulseWidth": 1.0,
+        "pulsePeriod": 5.0,
+        "randomProb": 0.5
+      },
+      "description": "Emergency stop button for production line 1 (normally OFF)"
+    },
+    {
+      "name": "AlarmIndicator_System",
+      "type": "digital",
+      "enabled": true,
+      "address": "%MW4",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "pattern": "alarm",
+        "togglePeriod": 5.0,
+        "pulseWidth": 1.0,
+        "pulsePeriod": 5.0,
+        "randomProb": 0.5
+      },
+      "description": "System alarm indicator, flashing pattern (0.5s ON, 0.5s OFF)"
+    },
+    {
+      "name": "RelayActuator_Pump1",
+      "type": "relay",
+      "enabled": true,
+      "address": "%MW10",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "defaultState": false,
+        "autoToggle": true,
+        "togglePeriod": 12.0
+      },
+      "description": "Pump 1 control relay (writable, auto-toggles every 12s for demo)"
+    },
+    {
+      "name": "ValveActuator_Tank1",
+      "type": "relay",
+      "enabled": true,
+      "address": "%MW11",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "defaultState": false,
+        "autoToggle": true,
+        "togglePeriod": 15.0
+      },
+      "description": "Tank 1 inlet valve control (writable, auto-toggles every 15s for demo)"
+    },
+    {
+      "name": "RelayActuator_Heater",
+      "type": "relay",
+      "enabled": true,
+      "address": "%MW12",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "defaultState": false,
+        "autoToggle": false,
+        "togglePeriod": 10.0
+      },
+      "description": "Heater control relay (writable, manual control)"
+    },
+    {
+      "name": "MotorSpeed_Conveyor",
+      "type": "integer",
+      "enabled": true,
+      "address": "%DW200",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "minValue": 0,
+        "maxValue": 100,
+        "defaultValue": 0,
+        "autoMode": true,
+        "autoPattern": "ramp",
+        "rampRate": 5.0,
+        "stepPeriod": 20.0
+      },
+      "description": "Conveyor motor speed control (0-100%, ramps up/down)"
+    },
+    {
+      "name": "HeaterPower_Tank1",
+      "type": "integer",
+      "enabled": true,
+      "address": "%DW201",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "minValue": 0,
+        "maxValue": 100,
+        "defaultValue": 50,
+        "autoMode": true,
+        "autoPattern": "sine",
+        "rampRate": 2.0,
+        "stepPeriod": 30.0
+      },
+      "description": "Tank 1 heater power level (0-100%, sine wave pattern)"
+    },
+    {
+      "name": "FanSpeed_Cooling",
+      "type": "integer",
+      "enabled": true,
+      "address": "%DW202",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "minValue": 0,
+        "maxValue": 100,
+        "defaultValue": 0,
+        "autoMode": true,
+        "autoPattern": "step",
+        "rampRate": 10.0,
+        "stepPeriod": 10.0
+      },
+      "description": "Cooling fan speed control (0-100%, step pattern)"
+    },
+    {
+      "name": "ValvePosition_MainFlow",
+      "type": "integer",
+      "enabled": true,
+      "address": "%DW203",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "minValue": 0,
+        "maxValue": 100,
+        "defaultValue": 50,
+        "autoMode": false,
+        "autoPattern": "ramp",
+        "rampRate": 1.0,
+        "stepPeriod": 15.0
+      },
+      "description": "Main flow valve position (0-100%, manual control)"
+    },
+    {
+      "name": "VibrationSensor_Motor1",
+      "type": "vibration",
+      "enabled": true,
+      "address": "%DF124",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "baseLevel": 2.5,
+        "amplitude": 1.0,
+        "frequency": 50.0,
+        "harmonics": 3,
+        "spikeProb": 0.01,
+        "spikeAmp": 8.0,
+        "noiseStdDev": 0.3,
+        "minValue": 0.0,
+        "maxValue": 30.0
+      },
+      "description": "Motor 1 vibration sensor (mm/s RMS, 50Hz fundamental with harmonics)"
+    },
+    {
+      "name": "VibrationSensor_Pump1",
+      "type": "vibration",
+      "enabled": true,
+      "address": "%DF128",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "baseLevel": 3.0,
+        "amplitude": 1.5,
+        "frequency": 60.0,
+        "harmonics": 4,
+        "spikeProb": 0.02,
+        "spikeAmp": 10.0,
+        "noiseStdDev": 0.5,
+        "minValue": 0.0,
+        "maxValue": 40.0
+      },
+      "description": "Pump 1 vibration sensor (mm/s RMS, 60Hz with higher spike probability)"
+    },
+    {
+      "name": "NoiseSensor_FactoryFloor",
+      "type": "noise",
+      "enabled": true,
+      "address": "%DF132",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "ambientLevel": 58.0,
+        "peakLevel": 82.0,
+        "cyclePeriod": 25.0,
+        "dutyCycle": 0.7,
+        "noiseStdDev": 2.5,
+        "spikeProb": 0.015,
+        "spikeLevel": 92.0,
+        "minValue": 30.0,
+        "maxValue": 110.0
+      },
+      "description": "Factory floor noise sensor (dB, cycles between ambient and machinery operation)"
+    },
+    {
+      "name": "NoiseSensor_CompressorRoom",
+      "type": "noise",
+      "enabled": true,
+      "address": "%DF136",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "ambientLevel": 72.0,
+        "peakLevel": 95.0,
+        "cyclePeriod": 40.0,
+        "dutyCycle": 0.5,
+        "noiseStdDev": 3.0,
+        "spikeProb": 0.025,
+        "spikeLevel": 105.0,
+        "minValue": 50.0,
+        "maxValue": 120.0
+      },
+      "description": "Compressor room noise sensor (dB, high ambient with periodic peaks)"
+    },
+    {
+      "name": "StepMotor_Conveyor",
+      "type": "stepmotor",
+      "enabled": true,
+      "address": "%DF140",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "maxSpeed": 800.0,
+        "acceleration": 4000.0,
+        "stepsPerRev": 200,
+        "autoMode": true,
+        "autoPattern": "oscillate",
+        "autoPeriod": 25.0
+      },
+      "description": "Conveyor belt step motor (position in steps, oscillating motion)"
+    },
+    {
+      "name": "StepMotor_Indexer",
+      "type": "stepmotor",
+      "enabled": true,
+      "address": "%DF144",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "maxSpeed": 1200.0,
+        "acceleration": 6000.0,
+        "stepsPerRev": 400,
+        "autoMode": true,
+        "autoPattern": "step",
+        "autoPeriod": 15.0
+      },
+      "description": "Indexing table step motor (position in steps, 4-position indexing)"
+    },
+    {
+      "name": "ServoMotor_Spindle",
+      "type": "servomotor",
+      "enabled": true,
+      "address": "%DF148",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "maxVelocity": 3000.0,
+        "maxTorque": 15.0,
+        "inertia": 0.002,
+        "damping": 0.015,
+        "outputMode": "velocity",
+        "autoMode": true,
+        "autoPattern": "sine",
+        "autoPeriod": 30.0,
+        "kp": 0.8,
+        "ki": 0.15,
+        "kd": 0.02
+      },
+      "description": "Spindle servo motor (velocity in RPM, sinusoidal speed variation)"
+    },
+    {
+      "name": "ServoMotor_Axis",
+      "type": "servomotor",
+      "enabled": true,
+      "address": "%DF152",
+      "updateIntervalMs": 100,
+      "parameters": {
+        "maxVelocity": 1500.0,
+        "maxTorque": 8.0,
+        "inertia": 0.001,
+        "damping": 0.01,
+        "outputMode": "position",
+        "autoMode": true,
+        "autoPattern": "ramp",
+        "autoPeriod": 20.0,
+        "kp": 0.5,
+        "ki": 0.1,
+        "kd": 0.01
+      },
+      "description": "Axis servo motor (position in degrees, ramp up/down motion)"
+    }
+  ]
+}

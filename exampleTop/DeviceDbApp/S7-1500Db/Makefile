@@ -14,6 +14,7 @@ include $(TOP)/configure/CONFIG
 
 DB += S7-1500-server.db
 DB += S7-1500-DB1.db
+DB += Go_OPCUA_sim.db
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
